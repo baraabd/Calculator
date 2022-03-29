@@ -10,84 +10,141 @@ namespace Calculator
 
         {
             bool showMenu = true;
-            Console.Clear();
-            Console.WriteLine("Instruktioner att använda kalkylator: ");
-            Console.WriteLine("-Du kan använda allmänna matematik operationer ( +, -, *, / ):");
-            Console.WriteLine("-Du kan trycka på Enter när du vill utföra en annan operation.");
-            Console.WriteLine("-Du kan trycka på Esc när du vill avsluta programmet.");
 
             while (showMenu)
 
             {
-                Addition(CaptureInput());
+
+                showMenu = MainMenu();
+
             }
         }
 
-        static void Addition(string user)
+        public static bool MainMenu()
+
         {
-            char type = GetTypeOfOperation(user.Trim());
-            string[] subs = user.Split('+', '-', '*', '/');
-            double firstNumber = double.Parse(subs[0]);
-            double secondNumber = double.Parse(subs[0]);
+            Console.Clear();
+
+            Console.WriteLine("Välj vilken operation ( + , - , * , / ):");
+
+            Console.WriteLine("Ange första sifran och tryck Enter: ");
+
+            Console.WriteLine("Ange andra sifran och tryck Enter: ");
+
+            Console.WriteLine("Du kan se resultat: ");
+
+            Console.WriteLine("0) För att avbryta projekt tryck på Esc");
+
+            Console.Write("\r\nVälj ett alternativ: ");
+
+
+            switch (Console.ReadLine())
+
+            {
+
+                case "+":
+
+                    Addition(Console.ReadLine(), Console.ReadLine());
+
+                    return true;
+
+                case "-":
+
+                    Subtraktion(Console.ReadLine(), Console.ReadLine());
+
+                    return true;
+                case "/":
+
+                    Division(Console.ReadLine(), Console.ReadLine());
+
+                    return true;
+                case "*":
+
+                    Multiplikation(Console.ReadLine(), Console.ReadLine());
+
+                    return true;
+                
+                case "0":
+
+                    return false;
+
+                default:
+
+                    return true;
+            }
+        }
+
+
+
+        public static string Addition(string firstNumber, string secondNumber)
+        {
             double result = 0;
-            int Number;
+            double Number;
 
-            if (int.TryParse(subs[0], out Number) & (int.TryParse(subs[1], out Number))){
 
-                if (type == '+')
-                {
-                    result = firstNumber + secondNumber;
-                    Console.Write(subs[0] + "+" + subs[1] + "=" + result);
-                }
-                else if (type == '-')
-                {
-                    result = firstNumber - secondNumber;
-                    Console.Write(subs[0] + "-" + subs[1] + "=" + result);
-                }
-                else if (type == '*')
-                {
-                    result = firstNumber * secondNumber;
-                    Console.Write(subs[0] + "*" + subs[1] + "=" + result);
-                }
-                else if (type == '/')
-                {
-                    if (double.Parse(subs[1]) == 0)
-                    {
-                        Console.WriteLine("Du försöker dividera med noll");
-                    }else
-                    {
-                        result = double.Parse(subs[0]) / double.Parse(subs[1]);
-                        Console.Write(subs[0] + "/" + subs[1] + "=" + result);
-                    }
-                }
+            if (double.TryParse(firstNumber, out Number) & (double.TryParse(secondNumber, out Number)))
+            {    
+                result = double.Parse(firstNumber) + double.Parse(secondNumber);
+                Console.Write(firstNumber + "+" + secondNumber + "=" + result);
             }
             else Console.WriteLine("Du har inte anget sifror ");
+            
+            return Console.ReadLine();
         }
 
-        public static string CaptureInput()
+        public static string Subtraktion(string firstNumber, string secondNumber)
         {
-            ConsoleKeyInfo ch;
+            double result = 0;
+            double Number;
 
-            ch = Console.ReadKey();
-            if (ch.Key == ConsoleKey.Escape)
+            if (double.TryParse(firstNumber, out Number) & (double.TryParse(secondNumber, out Number)))
             {
-                Environment.Exit(0);
+                result = double.Parse(firstNumber) - double.Parse(secondNumber);
+                Console.Write(firstNumber + "-" + secondNumber + "=" + result);
+
             }
+            else Console.WriteLine("Du har inte anget sifror ");
 
             return Console.ReadLine();
         }
 
-        public static char GetTypeOfOperation(string user)
+        public static string Division(string firstNumber, string secondNumber)
         {
-            char type = 'q';
-            for (int i = 0; i < user.Length; i++)
+            double result = 0;
+            double Number;
+
+            if (double.TryParse(firstNumber, out Number) & (double.TryParse(secondNumber, out Number)))
             {
-                if ((Char.IsWhiteSpace(user[i])) || !(Char.IsNumber(user[i])))
+                if (double.Parse(secondNumber) == 0)
                 {
-                    type = user[i];
+                    Console.WriteLine("Du försöker dividera med noll försök igen");
                 }
+                else
+                {
+                    result = double.Parse(firstNumber) / double.Parse(secondNumber);
+                    Console.Write(firstNumber + "/" + secondNumber + "=" + result);
+                }
+                
+
             }
-            return type;
+            else Console.WriteLine("Du har inte anget sifror ");
+            return Console.ReadLine();
+        }
+
+        public static string Multiplikation(string firstNumber, string secondNumber)
+        {
+            double result = 0;
+            double Number;
+
+            if (double.TryParse(firstNumber, out Number) & (double.TryParse(secondNumber, out Number)))
+            {
+                result = double.Parse(firstNumber) * double.Parse(secondNumber);
+                Console.Write(firstNumber + "*" + secondNumber + "=" + result);
+
+            }
+            else Console.WriteLine("Du har inte anget sifror ");
+
+            return Console.ReadLine();
         }
     }
 }
